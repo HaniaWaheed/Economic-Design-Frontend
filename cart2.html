@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecommerce Web Design</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        /* Header Styles */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 30px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .category-select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            position: relative;
+            flex: 1;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 40px 10px 15px;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            font-size: 14px;
+            background-color: #e6f0ff;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #007bff;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .header-icons a {
+            text-align: center;
+            color: #666;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .header-icons a:hover {
+            color: #007bff;
+        }
+
+        .icon-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+        }
+
+        /* Main Container */
+        .cart-container {
+            flex: 1;
+            display: flex;
+            gap: 30px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .empty-cart {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+    color: #666;
+}
+        /* Left Column - Items */
+        .cart-items {
+            flex: 2;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .cart-title {
+            font-size: 24px;
+            color: #333;
+        }
+
+        /* Cart Item */
+        .cart-item {
+            display: flex;
+            gap: 20px;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .item-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-title {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .item-price {
+            font-size: 18px;
+            color: #007bff;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .item-specs {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .item-seller {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .item-qty {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-remove {
+            background-color: #ff4757;
+            color: white;
+        }
+
+        .btn-save {
+            background-color: #f8f9fa;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+
+        /* Right Column - Summary */
+        .cart-summary {
+            flex: 1;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        .coupon-section {
+            margin-bottom: 30px;
+        }
+
+        .coupon-heading {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .coupon-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .btn-apply {
+            background-color: #007bff;
+            color: white;
+            width: 100%;
+            padding: 12px;
+        }
+
+        .summary-list {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .summary-label {
+            color: #666;
+        }
+
+        .summary-value {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .total {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .btn-checkout {
+            background-color: #28a745;
+            color: white;
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+        }
+
+        /* Footer Actions */
+        .cart-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .btn-back {
+            background-color: #f8f9fa;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        .btn-remove-all {
+            background-color: #ff4757;
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .cart-container {
+                flex-direction: column;
+            }
+
+            .cart-item {
+                flex-direction: column;
+            }
+
+            .item-image {
+                width: 100%;
+                height: 200px;
+            }
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: #333;
+            color: white;
+            margin-top: auto;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 20px;
+        }
+
+        .footer-column a {
+            color: #bbb;
+            text-decoration: none;
+            display: block;
+            margin: 10px 0;
+            transition: color 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: #007bff;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: #007bff;
+        }
+
+        .footer-bottom {
+            background-color: #222;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        /* New Alignment Styles */
+        .content-wrapper {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .services-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            display: flex;
+            gap: 15px;
+            padding: 0 20px;
+        }
+
+        .service-box {
+            width: 242px;
+            height: 48px;
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .service-icon {
+            color: #007bff;
+            font-size: 20px;
+        }
+
+        .service-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-title {
+            font-weight: bold;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .service-subtitle {
+            font-size: 12px;
+            color: #666;
+        }
+
+         .saved-later {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 0 20px;
+    }
+
+    .saved-title {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .saved-items-container {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 20px;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
+
+   .saved-item {
+        flex: 0 0 300px;
+        display: flex;
+        flex-direction: column;
+        padding: 15px;
+    }
+
+    .saved-image {
+        width: 50%;
+        height: 150px;
+        margin-bottom: 5px;
+    }
+
+    .btn-move {
+        margin-top: auto;
+    }
+    .saved-items-container::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .saved-items-container::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+    }
+
+    .saved-details {
+        flex: 1;
+    }
+
+    .saved-product-title {
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .saved-price {
+        font-size: 18px;
+        color: #007bff;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+
+    @media (max-width: 768px) {
+        .saved-item {
+            flex-direction: column;
+        }
+        
+        .saved-image {
+            width: 50%;
+            height: 150px;
+        }
+    }
+
+       .promo-block {
+        background-color: #007bff;
+        margin: 20px auto;
+        padding: 25px;
+        border-radius: 12px;
+        max-width: 1200px;
+    }
+
+    .promo-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: white;
+    }
+
+    .promo-text {
+        font-size: 24px;
+        margin: 0;
+        line-height: 1.4;
+    }
+
+    .shop-now {
+        color: #ff9900;
+        font-weight: bold;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .dummy-text {
+        font-size: 14px;
+        color: rgba(255,255,255,0.8);
+        margin: 0;
+    }
+
+    .shop-now:hover {
+        color: #ff6600;
+    }
+
+    @media (max-width: 768px) {
+        .promo-content {
+            flex-direction: column;
+            text-align: center;
+            gap: 15px;
+        }
+        
+        .promo-text {
+            font-size: 20px;
+        }
+    }
+    </style>
+</head>
+
+<body>
+    <!-- Main Header -->
+    <header class="header">
+        <div class="brand">Brand</div>
+        <div class="search-container">
+            <select class="category-select">
+                <option>All Category</option>
+            </select>
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Search products...">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+        </div>
+        <div class="header-icons">
+            <a href="ecommerce.html" class="icon-text"><i class="fas fa-user"></i> <span>Profile</span></a>
+            <a href="#" class="icon-text"><i class="fas fa-comment"></i> <span>Messages</span></a>
+            <a href="cart.html" class="icon-text"><i class="fas fa-shopping-bag"></i> <span>Orders</span></a>
+            <a href="cart2.html" class="icon-text"><i class="fas fa-shopping-cart"></i> <span>My Cart</span></a>
+        </div>
+    </header>
+
+    <div class="content-wrapper">
+        <div class="cart-container">
+            <!-- Left Column - Items -->
+            <div class="cart-items">
+                <div class="cart-header">
+                    <h2 class="cart-title">Shopping Cart (3 items)</h2>
+                </div>
+
+                <!-- Item 1 -->
+                <div class="cart-item">
+                    <img src="cloth/1.jpg" alt="T-shirt" class="item-image">
+                    <div class="item-details">
+                        <h3 class="item-title">T-shirts with multiple colors, for men and lady</h3>
+                        <p class="item-price">$78.99</p>
+                        <p class="item-specs">Size: medium, Color: blue, Material: Plastic</p>
+                        <p class="item-seller">Seller: Artel Market</p>
+                        <div class="item-actions">
+                            <span class="item-qty">Qty: 9</span>
+                            <button class="btn btn-remove">Remove</button>
+                            <button class="btn btn-save">Save for later</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="cart-item">
+                    <img src="cloth/5.jpg" alt="T-shirt" class="item-image">
+                    <div class="item-details">
+                        <h3 class="item-title">T-shirts with multiple colors, for men and lady</h3>
+                        <p class="item-price">$39.00</p>
+                        <p class="item-specs">Size: medium, Color: blue, Material: Plastic</p>
+                        <p class="item-seller">Seller: Best factory LLC</p>
+                        <div class="item-actions">
+                            <span class="item-qty">Qty: 3</span>
+                            <button class="btn btn-remove">Remove</button>
+                            <button class="btn btn-save">Save for later</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="cart-item">
+                    <img src="lamp.jpg" alt="T-shirt" class="item-image">
+                    <div class="item-details">
+                        <h3 class="item-title">T-shirts with multiple colors, for men and lady</h3>
+                        <p class="item-price">$170.50</p>
+                        <p class="item-specs">Size: medium, Color: blue, Material: Plastic</p>
+                        <p class="item-seller">Seller: Artel Market</p>
+                        <div class="item-actions">
+                            <span class="item-qty">Qty: 1</span>
+                            <button class="btn btn-remove">Remove</button>
+                            <button class="btn btn-save">Save for later</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart Footer -->
+                <div class="cart-footer">
+                    <button class="btn btn-back">Back to shop</button>
+                    <button class="btn btn-remove-all">Remove all</button>
+                </div>
+            </div>
+
+            <!-- Right Column - Summary -->
+            <div class="cart-summary">
+                <div class="coupon-section">
+                    <h3 class="coupon-heading">Have a coupon?</h3>
+                    <input type="text" class="coupon-input" placeholder="Add coupon">
+                    <button class="btn btn-apply">Apply</button>
+                </div>
+
+                <ul class="summary-list">
+                    <li class="summary-item">
+                        <span class="summary-label">Subtotal:</span>
+                        <span class="summary-value">$1403.97</span>
+                    </li>
+                    <li class="summary-item">
+                        <span class="summary-label">Discount:</span>
+                        <span class="summary-value">- $60.00</span>
+                    </li>
+                    <li class="summary-item">
+                        <span class="summary-label">Tax:</span>
+                        <span class="summary-value">+ $14.00</span>
+                    </li>
+                    <li class="summary-item total">
+                        <span class="summary-label">Total:</span>
+                        <span class="summary-value">$1357.97</span>
+                    </li>
+                </ul>
+
+                <button class="btn btn-checkout">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+    <!-- Services Section -->
+    <div class="services-container">
+        <div class="service-box">
+            <i class="fas fa-lock service-icon"></i>
+            <div class="service-text">
+                <span class="service-title">Secure payment</span>
+                <span class="service-subtitle">Have you ever finally just</span>
+            </div>
+        </div>
+    
+        <div class="service-box">
+            <i class="fas fa-headset service-icon"></i>
+            <div class="service-text">
+                <span class="service-title">Customer support</span>
+                <span class="service-subtitle">Have you ever finally just </span>
+            </div>
+        </div>
+    
+        <div class="service-box">
+            <i class="fas fa-truck service-icon"></i>
+            <div class="service-text">
+                <span class="service-title">Free delivery</span>
+                <span class="service-subtitle">Have you ever finally just</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Cart Container -->
+    <div class="content-wrapper">
+        <!-- Existing cart content remains same -->
+    </div>
+
+<div class="saved-later">
+    <h2 class="saved-title">Saved for later</h2>
+    <div class="saved-items-container">
+        <!-- Item 1 -->
+        <div class="saved-item"> 
+            <img src="2.jpg" alt="GoPro" class="saved-image">
+            <div class="saved-details">
+                <h3 class="saved-product-title">GoPro HERO6 4K Action Camera - Black</h3>
+                <p class="saved-price">$99.50</p>
+                <button class="btn btn-move">Move to cart</button>
+            </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="saved-item">
+            <img src="4.jpg" alt="GoPro" class="saved-image">
+            <div class="saved-details">
+                <h3 class="saved-product-title">GoPro HERO6 4K Action Camera - Black</h3>
+                <p class="saved-price">$99.50</p>
+                <button class="btn btn-move">Move to cart</button>
+            </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="saved-item">
+            <img src="clock.jpg" alt="GoPro" class="saved-image">
+            <div class="saved-details">
+                <h3 class="saved-product-title">GoPro HERO6 4K Action Camera - Black</h3>
+                <p class="saved-price">$99.50</p>
+                <button class="btn btn-move">Move to cart</button>
+            </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="saved-item">
+            <img src="laptop.jpg" alt="GoPro" class="saved-image">
+            <div class="saved-details">
+                <h3 class="saved-product-title">GoPro HERO6 4K Action Camera - Black</h3>
+                <p class="saved-price">$99.50</p>
+                <button class="btn btn-move">Move to cart</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="promo-block">
+    <div class="promo-content">
+        <h2 class="promo-text">Super discount on more than 100 USD<br>
+            <span class="shop-now">Shop now</span>
+        </h2>
+        <p class="dummy-text">Have you ever finally just write dummy info</p>
+    </div>
+</div>
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>About Us</h3>
+                <a href="#">About</a>
+                <a href="#">Partnership</a>
+                <a href="#">Information</a>
+            </div>
+            <div class="footer-column">
+                <h3>For Users</h3>
+                <a href="#">Get App</a>
+                <a href="#">Help Center</a>
+                <a href="#">Login</a>
+                <a href="#">Register</a>
+            </div>
+            <div class="footer-column">
+                <h3>Categories</h3>
+                <a href="#">Electronics</a>
+                <a href="#">Fashion</a>
+                <a href="#">Home & Kitchen</a>
+            </div>
+            <div class="footer-column">
+                <h3>Support</h3>
+                <a href="#">Find Store</a>
+                <a href="#">Shipping</a>
+                <a href="#">Settings</a>
+            </div>
+            <div class="footer-column">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2023 Ecommerce. All rights reserved.
+        </div>
+    </footer>
+    <script src="ecommerce.js"></script>
+</body>
+
+</html>
